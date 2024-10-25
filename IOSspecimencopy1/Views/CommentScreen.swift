@@ -120,7 +120,7 @@ struct CommentScreen: View {
     }
 }
 
-// Comment Model
+
 struct Comment: Identifiable {
     let id: String
     let userName: String

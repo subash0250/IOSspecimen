@@ -4,7 +4,6 @@
 //
 //  Created by Subash Gaddam on 2024-10-13.
 //
-
 import SwiftUI
 
 struct SplashView: View {
@@ -15,19 +14,22 @@ struct SplashView: View {
             Text("Connectify")
                 .font(.largeTitle)
                 .bold()
-            Image("app_logo") // Add your logo here
+            Image("logo")
+            
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
         }
         .onAppear {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                if firebaseService.isLoggedIn {
-                    // Navigate to Home
-                } else {
-                    // Navigate to Sign-In
-                }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                firebaseService.checkAuthStatus()
             }
+        }
+        .fullScreenCover(isPresented: $firebaseService.isLoggedIn) {
+            HomeView()
+        }
+        .fullScreenCover(isPresented: .constant(!firebaseService.isLoggedIn)) {
+            SignInView()
         }
     }
 }

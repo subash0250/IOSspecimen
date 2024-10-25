@@ -5,190 +5,166 @@
 //  Created by Subash Gaddam on 2024-10-13.
 //
 
-
 import SwiftUI
-import FirebaseStorage
-import UIKit
+import Firebase
+import FirebaseDatabase
+import FirebaseAuth
+
 struct SignUpView: View {
-    @State private var email = ""
-    @State private var password = ""
-    @State private var confirmPassword = ""
-    @State private var userName = ""
-    @State private var userBio = ""
-    @State private var selectedRole = "user" // Default role
-    @State private var selectedImage: UIImage?
-    @State private var showImagePicker = false
-    @State private var errorMessage = ""
-    @State private var isLoading = false
-    @State private var successMessage = ""
-    @EnvironmentObject var firebaseService: FirebaseService
-
+    @State private var email: String = ""
+    @State private var password: String = ""
+    @State private var name: String = ""
+    @State private var bio: String = ""
+    @State private var selectedRole: String = ""
+    @State private var roles: [String] = ["user", "moderator", "admin"]
+    @State private var errorMessage: String?
+    @State private var isLoading: Bool = false
+    
     var body: some View {
-        VStack(spacing: 20) {
-            Text("Create an Account")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.top, 50)
-
-            TextField("Email", text: $email)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .autocapitalization(.none)
-                .disableAutocorrection(true)
-
-            TextField("Username", text: $userName)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-
-            SecureField("Password", text: $password)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-
-            SecureField("Confirm Password", text: $confirmPassword)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-
-            TextField("Bio", text: $userBio)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-
-            // Role Selection
-            Picker("Select Role", selection: $selectedRole) {
-                Text("user").tag("user")
-                Text("Moderator").tag("Moderator")
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
-
-            // Profile Image Selection
-            Button(action: {
-                showImagePicker = true
-            }) {
-                Text("Select Profile Image")
-                    .foregroundColor(.blue)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(8)
-            }
-
-            if let selectedImage = selectedImage {
-                Image(uiImage: selectedImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .clipShape(Circle())
-            }
-
-            if !errorMessage.isEmpty {
-                Text(errorMessage)
-                    .foregroundColor(.red)
-                    .font(.subheadline)
-            }
-
-            if isLoading {
-                ProgressView("Creating Account...")
-                    .progressViewStyle(CircularProgressViewStyle())
-            } else {
-                Button(action: {
-                    if password == confirmPassword {
-                        isLoading = true
-                        successMessage = "" // Clear previous success message
-                        uploadProfileImageAndSignUp()
-                    } else {
-                        errorMessage = "Passwords do not match"
-                    }
-                }) {
-                    Text("Sign Up")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-            }
-
-            // Link to Sign In Page
-            HStack {
-                Text("Do you already have an account?")
-                    .font(.subheadline)
+        NavigationView {
+            VStack(spacing: 20) {
+                Text("Create Account")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                
+                Text("Let's Get Started!")
+                    .font(.headline)
                     .foregroundColor(.gray)
                 
-                NavigationLink(destination: SignInView()) {
-                    Text("Sign In")
-                        .fontWeight(.bold)
-                        .foregroundColor(.blue)
-                }
-            }
-            .padding(.top, 20)
-
-            if !successMessage.isEmpty {
-                Text(successMessage)
-                    .foregroundColor(.green)
-                    .font(.subheadline)
-            }
-
-            Spacer()
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $selectedImage)
-        }
-    }
-
-    private func uploadProfileImageAndSignUp() {
-        guard let image = selectedImage else {
-            // If no image is selected, use default URL
-            let defaultProfileImageURL = "defaultProfileImageURL"
-            createUserInDatabase(profileImageURL: defaultProfileImageURL)
-            return
-        }
-
-        let storageRef = Storage.storage().reference().child("profile_images/\(UUID().uuidString).jpg")
-        if let imageData = image.jpegData(compressionQuality: 0.8) {
-            storageRef.putData(imageData, metadata: nil) { metadata, error in
-                if let error = error {
-                    self.isLoading = false
-                    self.errorMessage = error.localizedDescription
-                    return
-                }
-
-                storageRef.downloadURL { url, error in
-                    if let downloadURL = url?.absoluteString {
-                        createUserInDatabase(profileImageURL: downloadURL)
+                TextField("Name", text: $name)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                TextField("Email", text: $email)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                    .keyboardType(.emailAddress)
+                
+                SecureField("Password", text: $password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                TextField("Bio", text: $bio)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                Picker("Select Role", selection: $selectedRole) {
+                    ForEach(roles, id: \.self) { role in
+                        Text(role).tag(role)
                     }
                 }
+                .pickerStyle(MenuPickerStyle())
+                .padding()
+                
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .padding()
+                }
+                
+                Button(action: signUp) {
+                    Text(isLoading ? "Signing Up..." : "Sign Up")
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isLoading ? Color.gray : Color.black)
+                        .cornerRadius(8)
+                }
+                .disabled(isLoading)
+                
+                Spacer()
+                
+                NavigationLink(destination: SignInView()) {
+                    Text("Already have an account? Sign In")
+                }
+                .padding()
+            }
+            .padding()
+            .alert(isPresented: Binding<Bool>(
+                get: { errorMessage != nil },
+                set: { if !$0 { errorMessage = nil } }
+            )) {
+                Alert(title: Text("Error"), message: Text(errorMessage ?? ""), dismissButton: .default(Text("OK")))
             }
         }
     }
-
-    private func createUserInDatabase(profileImageURL: String) {
-        firebaseService.signUp(email: email, password: password, userName: userName, userBio: userBio, userRole: selectedRole, userProfileImage: profileImageURL) { success, error in
-            isLoading = false
-            if success {
-                successMessage = "Account created successfully!"
-                clearFields()
-            } else {
-                errorMessage = error?.localizedDescription ?? "Error"
+    
+    private func signUp() {
+        guard !isLoading else { return }
+        errorMessage = nil
+        
+        guard validateForm()
+        else {
+            return
+        }
+        isLoading = true
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                self.errorMessage = error.localizedDescription
+                self.isLoading = false
+                return
+            }
+            
+            guard let userId = result?.user.uid else { return }
+            let userInfo: [String: Any] = [
+                "userBio": bio,
+                "userCreatedAt": Date().description,
+                "userEmail": email,
+                "userName": name,
+                "userProfileImage": "https://firebasestorage.googleapis.com/v0/b/conectivity-app.appspot.com/o/profile_images%2Fdefault_profile.png?alt=media&token=1f649470-3a12-45a3-90b7-eb045a37939c",
+                "userRole": selectedRole,
+                "userStatus": "active",
+                "isBanned": false,
+                "reports": 0
+            ]
+            
+            let ref = Database.database().reference()
+            ref.child("users").child(userId).setValue(userInfo) { error, _ in
+                if let error = error {
+                    self.errorMessage = error.localizedDescription
+                } else {
+                    
+                }
+                self.isLoading = false
             }
         }
     }
-
-    private func clearFields() {
-        email = ""
-        password = ""
-        confirmPassword = ""
-        userName = ""
-        userBio = ""
-        selectedImage = nil
-    }
+    private func validateForm() -> Bool {
+            if name.isEmpty {
+                errorMessage = "Please enter your name"
+                return false
+            }
+            if email.isEmpty {
+                errorMessage = "Please enter your email"
+                return false
+            }
+            if !isValidEmail(email) {
+                errorMessage = "Please enter a valid email"
+                return false
+            }
+            if password.isEmpty {
+                errorMessage = "Please enter a password"
+                return false
+            }
+            if password.count < 6 {
+                errorMessage = "Password must be at least 6 characters"
+                return false
+            }
+            if selectedRole.isEmpty {
+                errorMessage = "Please select a role"
+                return false
+            }
+            return true
+        }
+        
+        private func isValidEmail(_ email: String) -> Bool {
+            let emailPattern = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}"
+            let regex = NSPredicate(format: "SELF MATCHES %@", emailPattern)
+            return regex.evaluate(with: email)
+        }
 }
+
 
 
 

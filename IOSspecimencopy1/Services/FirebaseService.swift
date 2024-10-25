@@ -16,6 +16,9 @@ class FirebaseService: ObservableObject {
     private var dbRef = Database.database().reference()
 
     init() {
+        
+        checkAuthStatus()
+        
         _ = Auth.auth().addStateDidChangeListener { auth, user in
             if let _ = user {
                 self.isLoggedIn = true
@@ -24,8 +27,11 @@ class FirebaseService: ObservableObject {
             }
         }
     }
+    func checkAuthStatus() {
+           isLoggedIn = Auth.auth().currentUser != nil
+       }
 
-
+    
     func signIn(email: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let _ = result {
@@ -38,28 +44,27 @@ class FirebaseService: ObservableObject {
         }
     }
 
-    // Sign up with additional user information
-        func signUp(email: String, password: String, userName: String, userBio: String, userRole: String, userProfileImage: String?, completion: @escaping (Bool, Error?) -> Void) {
-            Auth.auth().createUser(withEmail: email, password: password) { result, error in
-                if let user = result?.user {
-                    let userData: [String: Any] = [
-                        "userEmail": email,
-                        "userName": userName,
-                        "userBio": userBio,
-                        "userProfileImage": userProfileImage ?? "defaultProfileImageURL",
-                        "userRole": userRole,
-                        "userStatus": "active",
-                        "userCreatedAt": [".sv": "timestamp"] // Use server timestamp
-                    ]
-                    
-                    self.dbRef.child("users").child(user.uid).setValue(userData) { error, _ in
-                        completion(error == nil, error)
-                    }
-                } else if let error = error {
-                    completion(false, error)
-                }
-            }
-        }
+//        func signUp(email: String, password: String, userName: String, userBio: String, userRole: String, userProfileImage: String?, completion: @escaping (Bool, Error?) -> Void) {
+//            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+//                if let user = result?.user {
+//                    let userData: [String: Any] = [
+//                        "userEmail": email,
+//                        "userName": userName,
+//                        "userBio": userBio,
+//                        "userProfileImage": userProfileImage ?? "defaultProfileImageURL",
+//                        "userRole": userRole,
+//                        "userStatus": "active",
+//                        "userCreatedAt": [".sv": "timestamp"] // Use server timestamp
+//                    ]
+//                    
+//                    self.dbRef.child("users").child(user.uid).setValue(userData) { error, _ in
+//                        completion(error == nil, error)
+//                    }
+//                } else if let error = error {
+//                    completion(false, error)
+//                }
+//            }
+//        }
 
     func sendPasswordReset(email: String, completion: @escaping (Bool, Error?) -> Void) {
         Auth.auth().sendPasswordReset(withEmail: email) { error in
