@@ -40,6 +40,7 @@
 		5F9F97D12CBC4D7B00021BAA /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9F97D02CBC4D7B00021BAA /* FirebaseDatabase */; };
 		5F9F97D32CBC4D7B00021BAA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9F97D22CBC4D7B00021BAA /* FirebaseFirestore */; };
 		5F9F97D52CBC4D7B00021BAA /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9F97D42CBC4D7B00021BAA /* FirebaseStorage */; };
+		5FC0FBDC2CCDAA1000D90579 /* ModeratorHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC0FBDB2CCDA9FB00D90579 /* ModeratorHomeScreen.swift */; };
 		5FCCD3C32CBF643F00C341D2 /* LocationSearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCCD3C22CBF643F00C341D2 /* LocationSearchScreen.swift */; };
 		5FCCD3C52CBF777A00C341D2 /* UserPostsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */; };
 		5FF6DEA92CBC9F9E00E4DEEA /* FollowersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */; };
@@ -95,6 +96,7 @@
 		5F9F97C52CBC4C7A00021BAA /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		5F9F97C72CBC4CA800021BAA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		5F9F97C92CBC4D2A00021BAA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5FC0FBDB2CCDA9FB00D90579 /* ModeratorHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeratorHomeScreen.swift; sourceTree = "<group>"; };
 		5FCCD3C22CBF643F00C341D2 /* LocationSearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchScreen.swift; sourceTree = "<group>"; };
 		5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsScreen.swift; sourceTree = "<group>"; };
 		5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersView.swift; sourceTree = "<group>"; };
@@ -213,6 +215,7 @@
 				5F9F97B92CBC4B1D00021BAA /* HomeView.swift */,
 				5F9F97BB2CBC4B3100021BAA /* EditProfileView.swift */,
 				5F28A9A02CBF0A7F0052C239 /* LocationSearchView.swift */,
+				5FC0FBDB2CCDA9FB00D90579 /* ModeratorHomeScreen.swift */,
 				5F353C4D2CBF4CBE0070DE50 /* CommentScreen.swift */,
 				5F6BC7202CCC28CA00969E80 /* AdminHomeScreen.swift */,
 				5F6BC72F2CCC343200969E80 /* PostsScreenAdmin.swift */,
@@ -393,6 +396,7 @@
 				5F6BC7252CCC292C00969E80 /* UserManagementTab.swift in Sources */,
 				5F9F97C42CBC4C1800021BAA /* FollowersTab.swift in Sources */,
 				5FCCD3C32CBF643F00C341D2 /* LocationSearchScreen.swift in Sources */,
+				5FC0FBDC2CCDAA1000D90579 /* ModeratorHomeScreen.swift in Sources */,
 				5F9F97C02CBC4BEF00021BAA /* ProfileTab.swift in Sources */,
 				5FCCD3C52CBF777A00C341D2 /* UserPostsScreen.swift in Sources */,
 				5F9F97C62CBC4C7A00021BAA /* FirebaseService.swift in Sources */,

@@ -1,13 +1,13 @@
 //
-//  UserManagementTab.swift
+//  ModeratorHomeScreen.swift
 //  IOSspecimencopy1
 //
-//  Created by Subash Gaddam on 2024-10-25.
+//  Created by Subash Gaddam on 2024-10-26.
 //
 
 import SwiftUI
 
-struct UserManagementTab: View {
+struct ModeratorHomeScreen: View {
     var body: some View {
         Text("Moderator Home")
     }

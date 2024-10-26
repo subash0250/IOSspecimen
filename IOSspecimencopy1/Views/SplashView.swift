@@ -8,7 +8,7 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject var firebaseService: FirebaseService
-
+    
     var body: some View {
         VStack {
             Text("Connectify")
@@ -25,12 +25,19 @@ struct SplashView: View {
                 firebaseService.checkAuthStatus()
             }
         }
-        .fullScreenCover(isPresented: $firebaseService.isLoggedIn) {
-            HomeView()
+        .fullScreenCover(item: $firebaseService.destination) { destination in
+                    // Navigate to the appropriate home view based on user role.
+                    switch destination {
+                    case .admin:
+                        AdminHomeScreen()
+                    case .moderator:
+                        ModeratorHomeScreen()
+                    case .user:
+                        HomeView()
+                    case .signIn:
+                        SignInView()
+                    }
+                }
+            }
         }
-        .fullScreenCover(isPresented: .constant(!firebaseService.isLoggedIn)) {
-            SignInView()
-        }
-    }
-}
 

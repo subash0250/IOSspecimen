@@ -27,7 +27,6 @@ struct HomeScreen: View {
                 VStack(spacing: 20) {
                     ForEach(posts) { post in
                         VStack(alignment: .leading, spacing: 10) {
-                            // User profile and post header
                             if let userData = post.userData {
                                 HStack {
                                     Image(uiImage: userData.profileImage)
@@ -52,6 +51,10 @@ struct HomeScreen: View {
                                                 Image(systemName: "trash")
                                             .foregroundColor(.red)
                                                         }
+                                                    }else {
+                                                        Button(action: { viewModel.showFlagDialog(post) }) {
+                                                            Image(systemName: "flag").foregroundColor(.red)
+                                                        }
                                                     }
                                                                    
                                 }
@@ -71,9 +74,9 @@ struct HomeScreen: View {
                             .padding(.horizontal, 10)
                             .padding(.vertical, 5)
 
-                            // Post Actions: Like, Comment, Share
+                            
                             HStack(spacing: 20) {
-                                // Like Button with Like Count
+                                
                                 Button(action: {
                                      Task {
                                          await handleLike(for: post)
@@ -89,16 +92,12 @@ struct HomeScreen: View {
                                              .font(.subheadline)
                                      }
                                  }
-
-                                // Comment Button
                                 NavigationLink(destination: CommentScreen(postId: post.postId)) {
                                     Image(systemName: "message")
                                         .resizable()
                                         .frame(width: 24, height: 24)
                                 }
 
-
-                                // Share Button
                                 Button(action: {
                                     sharePost(imageUrl: post.postImageUrl, caption: post.caption)
                                 }) {

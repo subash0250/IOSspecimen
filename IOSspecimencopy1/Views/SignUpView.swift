@@ -15,7 +15,7 @@ struct SignUpView: View {
     @State private var password: String = ""
     @State private var name: String = ""
     @State private var bio: String = ""
-    @State private var selectedRole: String = ""
+    @State private var selectedRole: String = "user"
     @State private var roles: [String] = ["user", "moderator", "admin"]
     @State private var errorMessage: String?
     @State private var isLoading: Bool = false
@@ -27,34 +27,37 @@ struct SignUpView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                Text("Let's Get Started!")
-                    .font(.headline)
-                    .foregroundColor(.gray)
+                VStack {
+                    Image("logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200, height: 200)
+                }
                 
                 TextField("Name", text: $name)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+                    .padding(8)
                 
                 TextField("Email", text: $email)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+                    .padding(8)
                     .keyboardType(.emailAddress)
                 
                 SecureField("Password", text: $password)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+                    .padding(8)
                 
                 TextField("Bio", text: $bio)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
+                    .padding(8)
                 
                 Picker("Select Role", selection: $selectedRole) {
                     ForEach(roles, id: \.self) { role in
                         Text(role).tag(role)
                     }
                 }
-                .pickerStyle(MenuPickerStyle())
-                .padding()
+                .pickerStyle(.segmented)
+                .padding(8)
                 
                 if let errorMessage = errorMessage {
                     Text(errorMessage)
@@ -72,12 +75,10 @@ struct SignUpView: View {
                 }
                 .disabled(isLoading)
                 
-                Spacer()
-                
                 NavigationLink(destination: SignInView()) {
                     Text("Already have an account? Sign In")
                 }
-                .padding()
+                .padding(8)
             }
             .padding()
             .alert(isPresented: Binding<Bool>(
@@ -155,6 +156,10 @@ struct SignUpView: View {
                 errorMessage = "Please select a role"
                 return false
             }
+        if bio.isEmpty {
+            errorMessage = "Please enter a bio"
+            return false
+        }
             return true
         }
         

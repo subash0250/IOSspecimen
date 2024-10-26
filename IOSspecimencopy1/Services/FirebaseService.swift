@@ -13,13 +13,29 @@ import FirebaseDatabase
 
 class FirebaseService: ObservableObject {
     @Published var isLoggedIn: Bool = false
+    @Published var destination: Destination? = nil
+    private let auth = Auth.auth()
     private var dbRef = Database.database().reference()
 
+    
+    enum Destination: Identifiable {
+            case admin, moderator, user, signIn
+
+            var id: String {
+                switch self {
+                case .admin: return "admin"
+                case .moderator: return "moderator"
+                case .user: return "user"
+                case .signIn: return "signIn"
+                }
+            }
+        }
+    
     init() {
         
         checkAuthStatus()
         
-        _ = Auth.auth().addStateDidChangeListener { auth, user in
+        _ = auth.addStateDidChangeListener { auth, user in
             if let _ = user {
                 self.isLoggedIn = true
             } else {
@@ -27,13 +43,46 @@ class FirebaseService: ObservableObject {
             }
         }
     }
+    
     func checkAuthStatus() {
-           isLoggedIn = Auth.auth().currentUser != nil
-       }
+            if let user = auth.currentUser {
+                fetchUserRole(userID: user.uid)
+            } else {
+                DispatchQueue.main.async {
+                    self.destination = .signIn
+                }
+            }
+        }
 
     
+    private func fetchUserRole(userID: String) {
+            dbRef.child("users/\(userID)").getData { error, snapshot in
+                if let error = error {
+                    print("Error fetching user role: \(error.localizedDescription)")
+                    self.destination = .signIn  // Fallback to Sign In on error.
+                    return
+                }
+
+                if let role = snapshot?.childSnapshot(forPath: "userRole").value as? String {
+                    DispatchQueue.main.async {
+                        switch role {
+                        case "admin":
+                            self.destination = .admin
+                        case "moderator":
+                            self.destination = .moderator
+                        default:
+                            self.destination = .user
+                        }
+                    }
+                } else {
+                    print("User role not found.")
+                    self.destination = .signIn
+                }
+            }
+        }
+    
     func signIn(email: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+        auth.signIn(withEmail: email, password: password) { result, error in
             if let _ = result {
                 self.isLoggedIn = true
                 completion(true, nil)
@@ -44,30 +93,8 @@ class FirebaseService: ObservableObject {
         }
     }
 
-//        func signUp(email: String, password: String, userName: String, userBio: String, userRole: String, userProfileImage: String?, completion: @escaping (Bool, Error?) -> Void) {
-//            Auth.auth().createUser(withEmail: email, password: password) { result, error in
-//                if let user = result?.user {
-//                    let userData: [String: Any] = [
-//                        "userEmail": email,
-//                        "userName": userName,
-//                        "userBio": userBio,
-//                        "userProfileImage": userProfileImage ?? "defaultProfileImageURL",
-//                        "userRole": userRole,
-//                        "userStatus": "active",
-//                        "userCreatedAt": [".sv": "timestamp"] // Use server timestamp
-//                    ]
-//                    
-//                    self.dbRef.child("users").child(user.uid).setValue(userData) { error, _ in
-//                        completion(error == nil, error)
-//                    }
-//                } else if let error = error {
-//                    completion(false, error)
-//                }
-//            }
-//        }
-
     func sendPasswordReset(email: String, completion: @escaping (Bool, Error?) -> Void) {
-        Auth.auth().sendPasswordReset(withEmail: email) { error in
+        auth.sendPasswordReset(withEmail: email) { error in
             if let error = error {
                 completion(false, error)
             } else {
@@ -77,7 +104,7 @@ class FirebaseService: ObservableObject {
     }
 
     func signOut() {
-        try? Auth.auth().signOut()
+        try? auth.signOut()
         self.isLoggedIn = false
     }
 
