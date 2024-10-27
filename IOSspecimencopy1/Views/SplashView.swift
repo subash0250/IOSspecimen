@@ -26,7 +26,6 @@ struct SplashView: View {
             }
         }
         .fullScreenCover(item: $firebaseService.destination) { destination in
-                    // Navigate to the appropriate home view based on user role.
                     switch destination {
                     case .admin:
                         AdminHomeScreen()

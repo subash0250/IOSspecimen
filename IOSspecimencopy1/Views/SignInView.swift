@@ -146,7 +146,7 @@ struct SignInView: View {
        }
 
     private func navigateTo<Destination: View>(view: Destination) {
-           let view = AnyView(view) // Create an AnyView from the destination
+           let view = AnyView(view)
            let rootView = UIHostingController(rootView: view)
 
            if let window = UIApplication.shared.windows.first {

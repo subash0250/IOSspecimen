@@ -108,6 +108,7 @@ class FirebaseService: ObservableObject {
         self.isLoggedIn = false
     }
 
+    
     func fetchUserData(completion: @escaping (DataSnapshot?) -> Void) {
         dbRef.child("users").observeSingleEvent(of: .value) { snapshot in
             completion(snapshot)

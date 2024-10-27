@@ -7,6 +7,8 @@
 //import SwiftUI
 //import FirebaseDatabase
 //
+//
+//
 //struct UserHistoryView: View {
 //    let userId: String
 //    @State private var user: AppUser? // Changed User to AppUser

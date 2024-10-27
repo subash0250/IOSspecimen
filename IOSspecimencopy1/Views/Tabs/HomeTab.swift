@@ -11,8 +11,6 @@ import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
 
-
-
 struct HomeScreen: View {
     @State private var posts: [Post] = []
         @State private var dbRef = Database.database().reference()
@@ -51,11 +49,14 @@ struct HomeScreen: View {
                                                 Image(systemName: "trash")
                                             .foregroundColor(.red)
                                                         }
-                                                    }else {
-                                                        Button(action: { viewModel.showFlagDialog(post) }) {
-                                                            Image(systemName: "flag").foregroundColor(.red)
-                                                        }
                                                     }
+                                    else {
+                                                                            // Flag button only for non-creators
+                                                                            Button(action: { flagPost(post) }) {
+                                                                                Image(systemName: "flag")
+                                                                                    .foregroundColor(.orange)
+                                                                            }
+                                                                        }
                                                                    
                                 }
                                 .padding(.horizontal, 10)
@@ -135,6 +136,22 @@ struct HomeScreen: View {
     }
 
 
+    func flagPost(_ post: Post) {
+           let flaggedData: [String: Any] = [
+               "flaggedPostID": post.postId,
+               "flaggedBy": userId,
+               "reason": "Inappropriate content", 
+               "timestamp": Int(Date().timeIntervalSince1970)
+           ]
+
+           dbRef.child("flaggedPosts").childByAutoId().setValue(flaggedData) { error, _ in
+               if let error = error {
+                   print("Error flagging post: \(error.localizedDescription)")
+               } else {
+                   print("Post flagged successfully.")
+               }
+           }
+       }
     
     func handleLike(for post: Post) async {
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -304,6 +321,7 @@ struct HomeScreen: View {
        }
 
 }
+
 
 
 struct Post: Identifiable {
