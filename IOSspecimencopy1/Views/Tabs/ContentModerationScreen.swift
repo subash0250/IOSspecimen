@@ -13,11 +13,7 @@ import Firebase
 //
 //
 
-//struct ContentModerationScreen: View {
-//    var body: some View {
-//        Text("Admin Home Tab")
-//    }
-//}
+
 struct ContentModerationScreen: View {
     @State private var flaggedPosts: [FlaggedPost] = []
 
@@ -71,33 +67,59 @@ struct ContentModerationScreen: View {
     }
 
     private func fetchFlaggedPosts() {
-        flaggedPostsRef.observeSingleEvent(of: .value) { snapshot in
-            guard snapshot.exists(), let data = snapshot.value as? [String: Any] else {
-                print("No flagged posts exist.")
-                return
-            }
-
-            var posts: [FlaggedPost] = []
-
-            let group = DispatchGroup()
-            for (key, value) in data {
-                guard let valueDict = value as? [String: Any],
-                      let flaggedByID = valueDict["flaggedBy"] as? String,
-                      let reason = valueDict["reason"] as? String else { continue }
-
-                group.enter()
+        flaggedPosts = []
+        flaggedPostsRef.observe(.childAdded) { snapshot in
+            if let valueDict = snapshot.value as? [String: Any],
+               let flaggedByID = valueDict["flaggedBy"] as? String,
+               let reason = valueDict["reason"] as? String {
+                
                 fetchUserName(userID: flaggedByID) { userName in
                     let timestampString = valueDict["timestamp"] as? String ?? ""
                     let timestamp = DateFormatter().date(from: timestampString) ?? Date()
-
-                    let flaggedPost = FlaggedPost(flaggedPostID: key, flaggedBy: userName, reason: reason, timestamp: timestamp)
-                    posts.append(flaggedPost)
-                    group.leave()
+                    
+                    let flaggedPost = FlaggedPost(
+                        flaggedPostID: snapshot.key,
+                        flaggedBy: userName,
+                        reason: reason,
+                        timestamp: timestamp
+                    )
+                    
+                    DispatchQueue.main.async {
+                        self.flaggedPosts.append(flaggedPost)
+                    }
                 }
             }
-
-            group.notify(queue: .main) {
-                self.flaggedPosts = posts
+        }
+        
+        
+        flaggedPostsRef.observe(.childRemoved) { snapshot in
+            DispatchQueue.main.async {
+                self.flaggedPosts.removeAll { $0.flaggedPostID == snapshot.key }
+            }
+        }
+  
+        flaggedPostsRef.observe(.childChanged) { snapshot in
+            if let valueDict = snapshot.value as? [String: Any],
+               let flaggedByID = valueDict["flaggedBy"] as? String,
+               let reason = valueDict["reason"] as? String {
+                
+                fetchUserName(userID: flaggedByID) { userName in
+                    let timestampString = valueDict["timestamp"] as? String ?? ""
+                    let timestamp = DateFormatter().date(from: timestampString) ?? Date()
+                    
+                    let updatedPost = FlaggedPost(
+                        flaggedPostID: snapshot.key,
+                        flaggedBy: userName,
+                        reason: reason,
+                        timestamp: timestamp
+                    )
+                    
+                    DispatchQueue.main.async {
+                        if let index = self.flaggedPosts.firstIndex(where: { $0.flaggedPostID == snapshot.key }) {
+                            self.flaggedPosts[index] = updatedPost
+                        }
+                    }
+                }
             }
         }
     }
