@@ -4,14 +4,10 @@
 //
 //  Created by Subash Gaddam on 2024-10-25.
 //
-
-//
 import SwiftUI
 import FirebaseDatabase
 import Firebase
-//
-//
-//
+
 
 
 struct ContentModerationScreen: View {

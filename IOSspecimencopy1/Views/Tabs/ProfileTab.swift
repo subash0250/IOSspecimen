@@ -16,7 +16,7 @@ struct ProfileScreen: View {
     @State private var followersCount = 0
     @State private var followingCount = 0
     @State private var isEditProfilePresented = false
-    @Environment(\.presentationMode) var presentationMode 
+    @Environment(\.presentationMode) var presentationMode
 
 
     var body: some View {
@@ -164,6 +164,8 @@ struct ProfileScreen: View {
         do {
             try Auth.auth().signOut()
             presentationMode.wrappedValue.dismiss()
+           
+          
         } catch {
             print("Error signing out: \(error)")
         }
