@@ -50,15 +50,12 @@ struct HomeScreen: View {
                                             .foregroundColor(.red)
                                                         }
                                                     }
-                                    else {
-                                                                            // Flag button only for non-creators
-                                                                            Button(action: { flagPost(post) }) {
-                                                                                Image(systemName: "flag")
-                                                                                    .foregroundColor(.orange)
-                                                                            }
-                                                                        }
-                                                                   
-                                }
+                                    else{
+                                        Button(action: { showFlagDialog(postId: post.postId) }) {
+                                                Image(systemName: "flag").foregroundColor(.orange)
+                                            }
+                                        }
+                                                                   }
                                 .padding(.horizontal, 10)
                                 .padding(.top, 5)
                             }
@@ -135,20 +132,64 @@ struct HomeScreen: View {
         }
     }
 
+    func showFlagDialog(postId: String) {
+           let alert = UIAlertController(title: "Flag Post",
+           message: "Enter reason for flagging",
+           preferredStyle: .alert)
+           
+           alert.addTextField { textField in
+               textField.placeholder = "Reason for flagging"
+           }
+           
+           let submitAction = UIAlertAction(title: "Submit", style: .default) { _ in
+               guard let reason = alert.textFields?.first?.text, !reason.isEmpty else {
+                   print("Reason cannot be empty")
+                   return
+               }
+               flagPost(postId: postId, reason: reason)
+           }
+           
+           alert.addAction(submitAction)
+           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
 
-    func flagPost(_ post: Post) {
-           let flaggedData: [String: Any] = [
-               "flaggedPostID": post.postId,
-               "flaggedBy": userId,
-               "reason": "Inappropriate content", 
-               "timestamp": Int(Date().timeIntervalSince1970)
+           if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
+              let rootViewController = keyWindow.rootViewController {
+               rootViewController.present(alert, animated: true)
+           }
+       }
+
+
+       func flagPost(postId: String, reason: String) {
+           guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+           
+           let postRef = Database.database().reference().child("flaggedPosts").child(postId)
+           let timestamp = Date().timeIntervalSince1970
+
+           let flagData: [String: Any] = [
+               "postID": postId,
+               "flaggedBy": currentUserId,
+               "reason": reason,
+               "timestamp": ISO8601DateFormatter().string(from: Date())
            ]
-
-           dbRef.child("flaggedPosts").childByAutoId().setValue(flaggedData) { error, _ in
+           
+           postRef.setValue(flagData) { error, _ in
                if let error = error {
                    print("Error flagging post: \(error.localizedDescription)")
                } else {
-                   print("Post flagged successfully.")
+                
+                   if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                      let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
+                      let rootViewController = keyWindow.rootViewController {
+                       let alert = UIAlertController(title: nil,
+                                                     message: "Post flagged successfully",
+                                                     preferredStyle: .alert)
+                       rootViewController.present(alert, animated: true)
+                       
+                       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                           alert.dismiss(animated: true)
+                       }
+                   }
                }
            }
        }

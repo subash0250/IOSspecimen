@@ -9,6 +9,6 @@ import SwiftUI
 
 struct UserManagementTab: View {
     var body: some View {
-        Text("Moderator Home")
+        Text("User management Home")
     }
 }
