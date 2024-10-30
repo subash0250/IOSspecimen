@@ -7,6 +7,7 @@
 import SwiftUI
 
 struct SplashView: View {
+    
     @EnvironmentObject var firebaseService: FirebaseService
     
     var body: some View {
@@ -25,18 +26,18 @@ struct SplashView: View {
                 firebaseService.checkAuthStatus()
             }
         }
-        .fullScreenCover(item: $firebaseService.destination) { destination in
-                    switch destination {
-                    case .admin:
-                        AdminHomeScreen()
-                    case .moderator:
-                        ModeratorHomeScreen()
-                    case .user:
-                        HomeView()
-                    case .signIn:
-                        SignInView()
-                    }
-                }
+//        .fullScreenCover(item: $firebaseService.destination) { destination in
+//                    switch destination {
+//                    case .admin:
+//                        AdminHomeScreen()
+//                    case .moderator:
+//                        ModeratorHomeScreen()
+//                    case .user:
+//                        HomeView()
+//                    case .signIn:
+//                        SignInView()
+//                    }
+//                }
             }
         }
 

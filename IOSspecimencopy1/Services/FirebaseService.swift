@@ -105,7 +105,11 @@ class FirebaseService: ObservableObject {
 
     func signOut() {
         try? auth.signOut()
-        self.isLoggedIn = false
+        DispatchQueue.main.async {
+                   self.destination = .signIn
+                   self.isLoggedIn = false
+               }
+    
     }
 
     

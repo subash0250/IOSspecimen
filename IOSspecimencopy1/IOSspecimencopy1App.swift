@@ -14,7 +14,7 @@ import Firebase
 
 struct IOSspecimencopy1App: App {
   
-    @StateObject var firebaseService = FirebaseService()
+    @StateObject private var firebaseService = FirebaseService()
 
     init() {
         FirebaseApp.configure()

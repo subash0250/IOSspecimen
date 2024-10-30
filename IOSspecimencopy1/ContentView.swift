@@ -8,15 +8,25 @@
 import SwiftUI
 import FirebaseAuth
 
-
-import SwiftUI
-
 struct ContentView: View {
+    
     @EnvironmentObject var firebaseService: FirebaseService
 
     var body: some View {
-        SplashView()
-    }
+           SplashView()
+               .fullScreenCover(item: $firebaseService.destination) { destination in
+                   switch destination {
+                   case .admin:
+                       AdminHomeScreen()
+                   case .moderator:
+                       ModeratorHomeScreen()
+                   case .user:
+                       HomeView()
+                   case .signIn:
+                       SignInView()
+                   }
+               }
+       }
 }
 
 

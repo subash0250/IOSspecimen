@@ -16,6 +16,7 @@ struct ProfileScreen: View {
     @State private var followersCount = 0
     @State private var followingCount = 0
     @State private var isEditProfilePresented = false
+    @EnvironmentObject var firebaseService: FirebaseService
     @Environment(\.presentationMode) var presentationMode
 
 
@@ -76,17 +77,27 @@ struct ProfileScreen: View {
                                  EditProfileScreen()
                              }
 
-                Button(action: {
-                    signOut()
-                }) {
-                    Text("Log Out")
-                        .foregroundColor(.white)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.black)
-                        .cornerRadius(30)
-                }
-                .padding()
+//                Button(action: {
+//                    firebaseService.signOut()
+//                }) {
+//                    Text("Log Out")
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .frame(maxWidth: .infinity)
+//                        .background(Color.black)
+//                        .cornerRadius(30)
+//                }
+//                .padding()
+                Button(action: logOut) {
+                                    Text("Log Out")
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.black)
+                                        .cornerRadius(30)
+                                }
+                                .padding()
+
 
                 Spacer()
             }
@@ -160,16 +171,20 @@ struct ProfileScreen: View {
         }
     }
 
-    private func signOut() {
-        do {
-            try Auth.auth().signOut()
+//    private func signOut() {
+//        do {
+//            try Auth.auth().signOut()
+//            presentationMode.wrappedValue.dismiss()
+//           
+//          
+//        } catch {
+//            print("Error signing out: \(error)")
+//        }
+//    }
+    private func logOut() {
+            firebaseService.signOut()
             presentationMode.wrappedValue.dismiss()
-           
-          
-        } catch {
-            print("Error signing out: \(error)")
         }
-    }
 
 }
 
