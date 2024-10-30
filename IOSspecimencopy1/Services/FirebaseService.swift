@@ -36,12 +36,12 @@ class FirebaseService: ObservableObject {
         checkAuthStatus()
         
         _ = auth.addStateDidChangeListener { auth, user in
-            if let _ = user {
-                self.isLoggedIn = true
-            } else {
-                self.isLoggedIn = false
-            }
-        }
+                    if user != nil {
+                        self.isLoggedIn = true
+                    } else {
+                        self.isLoggedIn = false
+                    }
+                }
     }
     
     func checkAuthStatus() {
@@ -54,6 +54,16 @@ class FirebaseService: ObservableObject {
             }
         }
 
+    func signIn(email: String, password: String, completion: @escaping (Error?) -> Void) {
+            auth.signIn(withEmail: email, password: password) { result, error in
+                if let user = result?.user, error == nil {
+                    self.fetchUserRole(userID: user.uid)
+                    completion(nil)
+                } else {
+                    completion(error)
+                }
+            }
+        }
     
     private func fetchUserRole(userID: String) {
             dbRef.child("users/\(userID)").getData { error, snapshot in
@@ -81,18 +91,7 @@ class FirebaseService: ObservableObject {
             }
         }
     
-    func signIn(email: String, password: String, completion: @escaping (Bool, Error?) -> Void) {
-        auth.signIn(withEmail: email, password: password) { result, error in
-            if let _ = result {
-                self.isLoggedIn = true
-                completion(true, nil)
-            } else if let error = error {
-                self.isLoggedIn = false
-                completion(false, error)
-            }
-        }
-    }
-
+    
     func sendPasswordReset(email: String, completion: @escaping (Bool, Error?) -> Void) {
         auth.sendPasswordReset(withEmail: email) { error in
             if let error = error {

@@ -76,18 +76,6 @@ struct ProfileScreen: View {
                 .sheet(isPresented: $isEditProfilePresented) {
                                  EditProfileScreen()
                              }
-
-//                Button(action: {
-//                    firebaseService.signOut()
-//                }) {
-//                    Text("Log Out")
-//                        .foregroundColor(.white)
-//                        .padding()
-//                        .frame(maxWidth: .infinity)
-//                        .background(Color.black)
-//                        .cornerRadius(30)
-//                }
-//                .padding()
                 Button(action: logOut) {
                                     Text("Log Out")
                                         .foregroundColor(.white)
@@ -171,16 +159,6 @@ struct ProfileScreen: View {
         }
     }
 
-//    private func signOut() {
-//        do {
-//            try Auth.auth().signOut()
-//            presentationMode.wrappedValue.dismiss()
-//           
-//          
-//        } catch {
-//            print("Error signing out: \(error)")
-//        }
-//    }
     private func logOut() {
             firebaseService.signOut()
             presentationMode.wrappedValue.dismiss()

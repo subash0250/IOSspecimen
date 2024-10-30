@@ -15,7 +15,7 @@ struct SignInView: View {
     @State private var passwordError = ""
     @State private var errorMessage = ""
     @State private var isLoading = false
-    @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var firebaseService: FirebaseService
 
     private let auth = Auth.auth()
     private let dbRef = Database.database().reference()
@@ -109,51 +109,13 @@ struct SignInView: View {
         }
 
         isLoading = true
-        auth.signIn(withEmail: email, password: password) { result, error in
-            isLoading = false
-
-            if let error = error {
-                           errorMessage = error.localizedDescription
-                       } else if let user = result?.user {
-                           
-                           navigateBasedOnRole(userID: user.uid)
-                       }
-                   }
+        firebaseService.signIn(email: email, password: password) { error in
+                    isLoading = false
+                    if let error = error {
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
     }
-
-    private func navigateBasedOnRole(userID: String) {
-           dbRef.child("users/\(userID)").getData { error, snapshot in
-               guard error == nil else {
-                   self.errorMessage = "Failed to retrieve user role. Please try again."
-                   return
-               }
-
-               if let role = snapshot?.childSnapshot(forPath: "userRole").value as? String {
-                   DispatchQueue.main.async {
-                       switch role {
-                       case "admin":
-                           navigateTo(view: AdminHomeScreen())
-                       case "moderator":
-                           navigateTo(view: ModeratorHomeScreen())
-                       default:
-                           navigateTo(view: HomeView())
-                       }
-                   }
-               } else {
-                   self.errorMessage = "User role not found. Please contact support."
-               }
-           }
-       }
-
-    private func navigateTo<Destination: View>(view: Destination) {
-           let view = AnyView(view)
-           let rootView = UIHostingController(rootView: view)
-
-           if let window = UIApplication.shared.windows.first {
-               window.rootViewController = rootView
-               window.makeKeyAndVisible()
-           }
-       }
 
 
     private func isValidEmail(_ email: String) -> Bool {
