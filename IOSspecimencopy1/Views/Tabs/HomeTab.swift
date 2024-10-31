@@ -18,6 +18,8 @@ struct HomeScreen: View {
         @State private var selectedImage: UIImage? = nil
         @State private var isImagePickerPresented = false
         @State private var selectedPost: Post? = nil
+    @State private var isFlagAlertPresented = false
+        @State private var flagReason = ""
 
     var body: some View {
         NavigationView {
@@ -50,12 +52,15 @@ struct HomeScreen: View {
                                             .foregroundColor(.red)
                                                         }
                                                     }
-                                    else{
-                                        Button(action: { showFlagDialog(postId: post.postId) }) {
-                                                Image(systemName: "flag").foregroundColor(.orange)
-                                            }
+                                    else {
+                                        Button(action: {
+                                            selectedPost = post
+                                            isFlagAlertPresented = true
+                                        }) {
+                                            Image(systemName: "flag").foregroundColor(.orange)
                                         }
-                                                                   }
+                                    }
+                                }
                                 .padding(.horizontal, 10)
                                 .padding(.top, 5)
                             }
@@ -119,7 +124,15 @@ struct HomeScreen: View {
                 .padding(.horizontal)
             }
             .navigationTitle("Home")
-        }
+            .alert("Flag Post", isPresented: $isFlagAlertPresented) {
+                            TextField("Enter reason for flagging", text: $flagReason)
+                            Button("Submit", action: submitFlagReason)
+                            Button("Cancel", role: .cancel, action: {})
+                        } message: {
+                            Text("Enter the reason for flagging this post")
+                        }
+                    }
+        
         .onAppear {
             fetchPosts()
         }.sheet(isPresented: $isImagePickerPresented) {
@@ -132,68 +145,35 @@ struct HomeScreen: View {
         }
     }
 
-    func showFlagDialog(postId: String) {
-           let alert = UIAlertController(title: "Flag Post",
-           message: "Enter reason for flagging",
-           preferredStyle: .alert)
-           
-           alert.addTextField { textField in
-               textField.placeholder = "Reason for flagging"
-           }
-           
-           let submitAction = UIAlertAction(title: "Submit", style: .default) { _ in
-               guard let reason = alert.textFields?.first?.text, !reason.isEmpty else {
-                   print("Reason cannot be empty")
-                   return
-               }
-               flagPost(postId: postId, reason: reason)
-           }
-           
-           alert.addAction(submitAction)
-           alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
-
-           if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
-              let rootViewController = keyWindow.rootViewController {
-               rootViewController.present(alert, animated: true)
-           }
-       }
+    func submitFlagReason() {
+            if let postId = selectedPost?.postId, !flagReason.isEmpty {
+                flagPost(postId: postId, reason: flagReason)
+                flagReason = ""  // Clear the reason after submission
+            }
+        }
 
 
-       func flagPost(postId: String, reason: String) {
-           guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-           
-           let postRef = Database.database().reference().child("flaggedPosts").child(postId)
-           let timestamp = Date().timeIntervalSince1970
+    func flagPost(postId: String, reason: String) {
+            guard let currentUserId = Auth.auth().currentUser?.uid else { return }
+            let postRef = Database.database().reference().child("flaggedPosts").child(postId)
+            let timestamp = Date().timeIntervalSince1970
 
-           let flagData: [String: Any] = [
-               "postID": postId,
-               "flaggedBy": currentUserId,
-               "reason": reason,
-               "timestamp": ISO8601DateFormatter().string(from: Date())
-           ]
-           
-           postRef.setValue(flagData) { error, _ in
-               if let error = error {
-                   print("Error flagging post: \(error.localizedDescription)")
-               } else {
-                
-                   if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                      let keyWindow = windowScene.windows.first(where: { $0.isKeyWindow }),
-                      let rootViewController = keyWindow.rootViewController {
-                       let alert = UIAlertController(title: nil,
-                                                     message: "Post flagged successfully",
-                                                     preferredStyle: .alert)
-                       rootViewController.present(alert, animated: true)
-                       
-                       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                           alert.dismiss(animated: true)
-                       }
-                   }
-               }
-           }
-       }
-    
+            let flagData: [String: Any] = [
+                "postID": postId,
+                "flaggedBy": currentUserId,
+                "reason": reason,
+                "timestamp": ISO8601DateFormatter().string(from: Date())
+            ]
+
+            postRef.setValue(flagData) { error, _ in
+                if let error = error {
+                    print("Error flagging post: \(error.localizedDescription)")
+                } else {
+                    print("Post flagged successfully")
+                }
+            }
+        }
+   
     func handleLike(for post: Post) async {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         guard let index = posts.firstIndex(where: { $0.postId == post.postId }) else { return }

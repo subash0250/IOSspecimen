@@ -96,6 +96,7 @@ struct PostsScreenAdmin: View {
                                     Image(systemName: "message")
                                         .resizable()
                                         .frame(width: 24, height: 24)
+                                        .foregroundColor(.black)
                                 }
 
 
@@ -106,6 +107,7 @@ struct PostsScreenAdmin: View {
                                     Image(systemName: "paperplane")
                                         .resizable()
                                         .frame(width: 24, height: 24)
+                                        .foregroundColor(.black)
                                 }
                             }
                             .padding(.horizontal, 10)

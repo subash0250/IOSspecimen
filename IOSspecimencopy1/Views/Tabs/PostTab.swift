@@ -19,9 +19,10 @@ struct PostScreen: View {
     @State private var isImagePickerPresented = false
     @State private var isLoading = false
     @State private var successMessage: String? = nil
-    @State private var locationName: String? = nil // Store city name
-    @State private var latitude: Double? = nil // Store latitude
-    @State private var longitude: Double? = nil // Store longitude
+    @State private var locationName: String? = nil
+    @State private var errorMessage: String? = nil
+    @State private var latitude: Double? = nil
+    @State private var longitude: Double? = nil
 
     var body: some View {
         NavigationView {
@@ -51,7 +52,6 @@ struct PostScreen: View {
                         .padding()
 
                     NavigationLink(destination: LocationSearchScreen(onSelectLocation: { name, lat, lon in
-                        // Handle the selected location
                         locationName = name
                         latitude = lat
                         longitude = lon
@@ -81,6 +81,18 @@ struct PostScreen: View {
                                 .cornerRadius(10)
                         }
                     }
+                    if let successMessage = successMessage {
+                        Text(successMessage)
+                            .foregroundColor(.green)
+                            .padding()
+                    }
+
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                    
 
                     Spacer()
                 }
@@ -167,6 +179,7 @@ struct PostScreen: View {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             successMessage = nil
+            errorMessage = nil
         }
     }
 }

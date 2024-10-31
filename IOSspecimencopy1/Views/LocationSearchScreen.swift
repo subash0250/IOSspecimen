@@ -15,7 +15,8 @@ struct LocationSearchScreen: View {
     @State private var isLoading = false
 
     let onSelectLocation: (String, Double, Double) -> Void
-
+    @Environment(\.presentationMode) var presentationMode
+    
     var body: some View {
         VStack {
             TextField("Search for a location...", text: $searchQuery, onCommit: fetchLocations)
@@ -31,8 +32,7 @@ struct LocationSearchScreen: View {
                            let lat = placemark.location?.coordinate.latitude,
                            let lon = placemark.location?.coordinate.longitude {
                             onSelectLocation(name, lat, lon)
-                            // Dismiss the screen
-                            dismiss()
+                            presentationMode.wrappedValue.dismiss()
                         }
                     }) {
                         VStack(alignment: .leading) {
@@ -51,8 +51,6 @@ struct LocationSearchScreen: View {
         .navigationTitle("Select Location")
     }
 
-    // MARK: - Fetch Locations using CoreLocation
-
     func fetchLocations() {
         guard !searchQuery.isEmpty else { return }
 
@@ -64,13 +62,6 @@ struct LocationSearchScreen: View {
                 return
             }
             searchResults = placemarks ?? []
-        }
-    }
-
-    // Helper to dismiss the view
-    private func dismiss() {
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
-            windowScene.windows.first?.rootViewController?.dismiss(animated: true, completion: nil)
         }
     }
 }
