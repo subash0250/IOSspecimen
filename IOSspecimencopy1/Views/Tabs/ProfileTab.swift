@@ -62,6 +62,7 @@ struct ProfileScreen: View {
                     }
                 }
                 .padding()
+                .foregroundColor(.blue)
                 Button(action: {
                     isEditProfilePresented = true
                              }) {
