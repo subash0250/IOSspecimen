@@ -3,18 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		5F28A9A12CBF0A7F0052C239 /* LocationSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F28A9A02CBF0A7F0052C239 /* LocationSearchView.swift */; };
 		5F353C4E2CBF4CBE0070DE50 /* CommentScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F353C4D2CBF4CBE0070DE50 /* CommentScreen.swift */; };
-		5F6BC7212CCC28DC00969E80 /* AdminHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BC7202CCC28CA00969E80 /* AdminHomeScreen.swift */; };
-		5F6BC7232CCC291100969E80 /* AdminHomeTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BC7222CCC290F00969E80 /* AdminHomeTab.swift */; };
-		5F6BC7252CCC292C00969E80 /* UserManagementTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BC7242CCC292900969E80 /* UserManagementTab.swift */; };
-		5F6BC7272CCC294C00969E80 /* ContentModerationScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BC7262CCC294900969E80 /* ContentModerationScreen.swift */; };
-		5F6BC72E2CCC2DF100969E80 /* UserHistoryScreen_Admin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BC72D2CCC2DD600969E80 /* UserHistoryScreen_Admin.swift */; };
-		5F6BC7302CCC343D00969E80 /* PostsScreenAdmin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6BC72F2CCC343200969E80 /* PostsScreenAdmin.swift */; };
+		5F8E68622CD8244500173861 /* EditPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F8E68612CD8242C00173861 /* EditPostView.swift */; };
 		5F9DBADD2CD32F8200CFA789 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5F9DBADC2CD32E0300CFA789 /* GoogleService-Info.plist */; };
 		5F9F97832CBC490B00021BAA /* IOSspecimencopy1App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F97822CBC490B00021BAA /* IOSspecimencopy1App.swift */; };
 		5F9F97852CBC490B00021BAA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F9F97842CBC490B00021BAA /* ContentView.swift */; };
@@ -40,8 +35,6 @@
 		5F9F97D12CBC4D7B00021BAA /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9F97D02CBC4D7B00021BAA /* FirebaseDatabase */; };
 		5F9F97D32CBC4D7B00021BAA /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9F97D22CBC4D7B00021BAA /* FirebaseFirestore */; };
 		5F9F97D52CBC4D7B00021BAA /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 5F9F97D42CBC4D7B00021BAA /* FirebaseStorage */; };
-		5FC0FBDC2CCDAA1000D90579 /* ModeratorHomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC0FBDB2CCDA9FB00D90579 /* ModeratorHomeScreen.swift */; };
-		5FC493BF2CD2D21400EF138E /* UserManagementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC493BE2CD2D20500EF138E /* UserManagementViewModel.swift */; };
 		5FC493C12CD2D24F00EF138E /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FC493C02CD2D24600EF138E /* AppUser.swift */; };
 		5FCCD3C32CBF643F00C341D2 /* LocationSearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCCD3C22CBF643F00C341D2 /* LocationSearchScreen.swift */; };
 		5FCCD3C52CBF777A00C341D2 /* UserPostsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */; };
@@ -69,12 +62,7 @@
 /* Begin PBXFileReference section */
 		5F28A9A02CBF0A7F0052C239 /* LocationSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchView.swift; sourceTree = "<group>"; };
 		5F353C4D2CBF4CBE0070DE50 /* CommentScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentScreen.swift; sourceTree = "<group>"; };
-		5F6BC7202CCC28CA00969E80 /* AdminHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminHomeScreen.swift; sourceTree = "<group>"; };
-		5F6BC7222CCC290F00969E80 /* AdminHomeTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminHomeTab.swift; sourceTree = "<group>"; };
-		5F6BC7242CCC292900969E80 /* UserManagementTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagementTab.swift; sourceTree = "<group>"; };
-		5F6BC7262CCC294900969E80 /* ContentModerationScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentModerationScreen.swift; sourceTree = "<group>"; };
-		5F6BC72D2CCC2DD600969E80 /* UserHistoryScreen_Admin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHistoryScreen_Admin.swift; sourceTree = "<group>"; };
-		5F6BC72F2CCC343200969E80 /* PostsScreenAdmin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsScreenAdmin.swift; sourceTree = "<group>"; };
+		5F8E68612CD8242C00173861 /* EditPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditPostView.swift; sourceTree = "<group>"; };
 		5F9DBADC2CD32E0300CFA789 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		5F9F977F2CBC490B00021BAA /* IOSspecimencopy1.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IOSspecimencopy1.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5F9F97822CBC490B00021BAA /* IOSspecimencopy1App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSspecimencopy1App.swift; sourceTree = "<group>"; };
@@ -98,14 +86,17 @@
 		5F9F97C32CBC4C1800021BAA /* FollowersTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersTab.swift; sourceTree = "<group>"; };
 		5F9F97C52CBC4C7A00021BAA /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		5F9F97C72CBC4CA800021BAA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
-		5FC0FBDB2CCDA9FB00D90579 /* ModeratorHomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeratorHomeScreen.swift; sourceTree = "<group>"; };
-		5FC493BE2CD2D20500EF138E /* UserManagementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManagementViewModel.swift; sourceTree = "<group>"; };
 		5FC493C02CD2D24600EF138E /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		5FCCD3C22CBF643F00C341D2 /* LocationSearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationSearchScreen.swift; sourceTree = "<group>"; };
 		5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsScreen.swift; sourceTree = "<group>"; };
 		5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersView.swift; sourceTree = "<group>"; };
 		5FF6DEAA2CBCA15D00E4DEEA /* FollowingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		5F8E68592CD8220500173861 /* Moderator */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Moderator; sourceTree = "<group>"; };
+		5F8E68602CD822E500173861 /* Admin */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Admin; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		5F9F977C2CBC490B00021BAA /* Frameworks */ = {
@@ -209,22 +200,20 @@
 		5F9F97AD2CBC4A8100021BAA /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				5F8E68602CD822E500173861 /* Admin */,
+				5F8E68592CD8220500173861 /* Moderator */,
 				5F9F97AE2CBC4A9400021BAA /* Tabs */,
 				5FF6DEAA2CBCA15D00E4DEEA /* FollowingScreen.swift */,
 				5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */,
+				5F8E68612CD8242C00173861 /* EditPostView.swift */,
 				5F9F97AF2CBC4AAE00021BAA /* SplashView.swift */,
 				5F9F97B32CBC4AEE00021BAA /* SignInView.swift */,
 				5F9F97B52CBC4AFD00021BAA /* SignUpView.swift */,
 				5F9F97B72CBC4B0E00021BAA /* ForgotPasswordView.swift */,
-				5F6BC72D2CCC2DD600969E80 /* UserHistoryScreen_Admin.swift */,
-				5FC493BE2CD2D20500EF138E /* UserManagementViewModel.swift */,
 				5F9F97B92CBC4B1D00021BAA /* HomeView.swift */,
 				5F9F97BB2CBC4B3100021BAA /* EditProfileView.swift */,
 				5F28A9A02CBF0A7F0052C239 /* LocationSearchView.swift */,
-				5FC0FBDB2CCDA9FB00D90579 /* ModeratorHomeScreen.swift */,
 				5F353C4D2CBF4CBE0070DE50 /* CommentScreen.swift */,
-				5F6BC7202CCC28CA00969E80 /* AdminHomeScreen.swift */,
-				5F6BC72F2CCC343200969E80 /* PostsScreenAdmin.swift */,
 				5FCCD3C22CBF643F00C341D2 /* LocationSearchScreen.swift */,
 				5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */,
 			);
@@ -234,9 +223,6 @@
 		5F9F97AE2CBC4A9400021BAA /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
-				5F6BC7262CCC294900969E80 /* ContentModerationScreen.swift */,
-				5F6BC7242CCC292900969E80 /* UserManagementTab.swift */,
-				5F6BC7222CCC290F00969E80 /* AdminHomeTab.swift */,
 				5F9F97BD2CBC4BCF00021BAA /* HomeTab.swift */,
 				5F9F97BF2CBC4BEF00021BAA /* ProfileTab.swift */,
 				5F9F97C12CBC4C0900021BAA /* PostTab.swift */,
@@ -259,6 +245,10 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5F8E68592CD8220500173861 /* Moderator */,
+				5F8E68602CD822E500173861 /* Admin */,
 			);
 			name = IOSspecimencopy1;
 			packageProductDependencies = (
@@ -386,32 +376,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5FC493BF2CD2D21400EF138E /* UserManagementViewModel.swift in Sources */,
 				5F9F97852CBC490B00021BAA /* ContentView.swift in Sources */,
 				5FF6DEAB2CBCA15D00E4DEEA /* FollowingScreen.swift in Sources */,
 				5F9F97BA2CBC4B1D00021BAA /* HomeView.swift in Sources */,
-				5F6BC7302CCC343D00969E80 /* PostsScreenAdmin.swift in Sources */,
-				5F6BC7212CCC28DC00969E80 /* AdminHomeScreen.swift in Sources */,
 				5F9F97BC2CBC4B3100021BAA /* EditProfileView.swift in Sources */,
-				5F6BC7272CCC294C00969E80 /* ContentModerationScreen.swift in Sources */,
 				5F9F97C82CBC4CA800021BAA /* ImagePicker.swift in Sources */,
 				5FC493C12CD2D24F00EF138E /* AppUser.swift in Sources */,
 				5FF6DEA92CBC9F9E00E4DEEA /* FollowersView.swift in Sources */,
 				5F9F97B62CBC4AFD00021BAA /* SignUpView.swift in Sources */,
 				5F9F97832CBC490B00021BAA /* IOSspecimencopy1App.swift in Sources */,
-				5F6BC72E2CCC2DF100969E80 /* UserHistoryScreen_Admin.swift in Sources */,
 				5F28A9A12CBF0A7F0052C239 /* LocationSearchView.swift in Sources */,
-				5F6BC7252CCC292C00969E80 /* UserManagementTab.swift in Sources */,
 				5F9F97C42CBC4C1800021BAA /* FollowersTab.swift in Sources */,
 				5FCCD3C32CBF643F00C341D2 /* LocationSearchScreen.swift in Sources */,
-				5FC0FBDC2CCDAA1000D90579 /* ModeratorHomeScreen.swift in Sources */,
+				5F8E68622CD8244500173861 /* EditPostView.swift in Sources */,
 				5F9F97C02CBC4BEF00021BAA /* ProfileTab.swift in Sources */,
 				5FCCD3C52CBF777A00C341D2 /* UserPostsScreen.swift in Sources */,
 				5F9F97C62CBC4C7A00021BAA /* FirebaseService.swift in Sources */,
 				5F9F97B42CBC4AEE00021BAA /* SignInView.swift in Sources */,
 				5F353C4E2CBF4CBE0070DE50 /* CommentScreen.swift in Sources */,
 				5F9F97BE2CBC4BCF00021BAA /* HomeTab.swift in Sources */,
-				5F6BC7232CCC291100969E80 /* AdminHomeTab.swift in Sources */,
 				5F9F97C22CBC4C0900021BAA /* PostTab.swift in Sources */,
 				5F9F97B82CBC4B0E00021BAA /* ForgotPasswordView.swift in Sources */,
 				5F9F97B02CBC4AAE00021BAA /* SplashView.swift in Sources */,
