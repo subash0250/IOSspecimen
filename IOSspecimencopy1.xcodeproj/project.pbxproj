@@ -40,6 +40,8 @@
 		5FCCD3C52CBF777A00C341D2 /* UserPostsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */; };
 		5FF6DEA92CBC9F9E00E4DEEA /* FollowersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */; };
 		5FF6DEAB2CBCA15D00E4DEEA /* FollowingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF6DEAA2CBCA15D00E4DEEA /* FollowingScreen.swift */; };
+		5FF95AFE2CD9763800E4A73B /* AllUsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF95AFD2CD9761E00E4A73B /* AllUsersView.swift */; };
+		5FF95B002CD9765500E4A73B /* AllPostsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF95AFF2CD9765000E4A73B /* AllPostsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 		5FCCD3C42CBF777A00C341D2 /* UserPostsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPostsScreen.swift; sourceTree = "<group>"; };
 		5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowersView.swift; sourceTree = "<group>"; };
 		5FF6DEAA2CBCA15D00E4DEEA /* FollowingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingScreen.swift; sourceTree = "<group>"; };
+		5FF95AFD2CD9761E00E4A73B /* AllUsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllUsersView.swift; sourceTree = "<group>"; };
+		5FF95AFF2CD9765000E4A73B /* AllPostsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllPostsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -205,6 +209,7 @@
 				5F9F97AE2CBC4A9400021BAA /* Tabs */,
 				5FF6DEAA2CBCA15D00E4DEEA /* FollowingScreen.swift */,
 				5FF6DEA82CBC9F9E00E4DEEA /* FollowersView.swift */,
+				5FF95AFD2CD9761E00E4A73B /* AllUsersView.swift */,
 				5F8E68612CD8242C00173861 /* EditPostView.swift */,
 				5F9F97AF2CBC4AAE00021BAA /* SplashView.swift */,
 				5F9F97B32CBC4AEE00021BAA /* SignInView.swift */,
@@ -227,6 +232,7 @@
 				5F9F97BF2CBC4BEF00021BAA /* ProfileTab.swift */,
 				5F9F97C12CBC4C0900021BAA /* PostTab.swift */,
 				5F9F97C32CBC4C1800021BAA /* FollowersTab.swift */,
+				5FF95AFF2CD9765000E4A73B /* AllPostsView.swift */,
 			);
 			path = Tabs;
 			sourceTree = "<group>";
@@ -389,12 +395,14 @@
 				5F9F97C42CBC4C1800021BAA /* FollowersTab.swift in Sources */,
 				5FCCD3C32CBF643F00C341D2 /* LocationSearchScreen.swift in Sources */,
 				5F8E68622CD8244500173861 /* EditPostView.swift in Sources */,
+				5FF95AFE2CD9763800E4A73B /* AllUsersView.swift in Sources */,
 				5F9F97C02CBC4BEF00021BAA /* ProfileTab.swift in Sources */,
 				5FCCD3C52CBF777A00C341D2 /* UserPostsScreen.swift in Sources */,
 				5F9F97C62CBC4C7A00021BAA /* FirebaseService.swift in Sources */,
 				5F9F97B42CBC4AEE00021BAA /* SignInView.swift in Sources */,
 				5F353C4E2CBF4CBE0070DE50 /* CommentScreen.swift in Sources */,
 				5F9F97BE2CBC4BCF00021BAA /* HomeTab.swift in Sources */,
+				5FF95B002CD9765500E4A73B /* AllPostsView.swift in Sources */,
 				5F9F97C22CBC4C0900021BAA /* PostTab.swift in Sources */,
 				5F9F97B82CBC4B0E00021BAA /* ForgotPasswordView.swift in Sources */,
 				5F9F97B02CBC4AAE00021BAA /* SplashView.swift in Sources */,

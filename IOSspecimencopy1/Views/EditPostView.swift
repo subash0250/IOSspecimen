@@ -15,8 +15,8 @@
 //    @Environment(\.presentationMode) var presentationMode
 //    @Binding var post: Post
 //    @State private var newCaption: String = ""
-//    @State private var newPostImage: UIImage? // State for new image
-//    @State private var showImagePicker = false // State to show the image picker
+//    @State private var newPostImage: UIImage?
+//    @State private var showImagePicker = false
 //    @State private var isLoading = false
 //
 //    var body: some View {
@@ -25,7 +25,7 @@
 //                .font(.largeTitle)
 //                .padding()
 //
-//            // Display current post image
+//         
 //            if !post.postImageUrl.isEmpty, let url = URL(string: post.postImageUrl) {
 //                AsyncImage(url: url) { image in
 //                    image.resizable()
@@ -36,25 +36,25 @@
 //                    ProgressView()
 //                }
 //            } else {
-//                // Handle the case where postImageUrl is empty or invalid
+//               
 //                Text("No image available")
 //                    .foregroundColor(.gray)
 //            }
 //
 //            // Button to select a new image
 //            Button(action: {
-//                showImagePicker = true // Action to present image picker
+//                showImagePicker = true
 //            }) {
 //                Text("Select New Image")
 //                    .foregroundColor(.blue)
 //            }
 //
-//            // Caption text field
+//            
 //            TextField("Caption", text: $newCaption)
 //                .textFieldStyle(RoundedBorderTextFieldStyle())
 //                .padding()
 //
-//            // Update Post button
+//            
 //            Button(action: {
 //                updatePost()
 //            }) {
@@ -68,11 +68,11 @@
 //            }
 //        }
 //        .onAppear {
-//            newCaption = post.caption // Load the current caption
+//            newCaption = post.caption
 //        }
 //        .padding()
 //        .sheet(isPresented: $showImagePicker) {
-//            ImagePicker(image: $newPostImage) // Present image picker
+//            ImagePicker(image: $newPostImage)
 //        }
 //        .overlay {
 //            if isLoading {
@@ -81,7 +81,7 @@
 //        }
 //    }
 //
-//    // Function to update the post in the database
+// 
 //    private func updatePost() {
 //        guard let user = Auth.auth().currentUser else {
 //            print("User not logged in")
@@ -99,6 +99,7 @@
 //        }
 //    }
 //
+//    
 //    private func uploadImageAndSavePost(image: UIImage, userId: String) {
 //        guard let imageData = image.jpegData(compressionQuality: 0.8) else { return }
 //        
@@ -145,7 +146,7 @@
 //                print("Error updating post: \(error.localizedDescription)")
 //            } else {
 //                print("Post updated successfully!")
-//                presentationMode.wrappedValue.dismiss() // Dismiss the view after updating
+//                presentationMode.wrappedValue.dismiss()
 //            }
 //        }
 //    }
